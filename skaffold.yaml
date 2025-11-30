@@ -1,0 +1,64 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/dashboard-depl.yaml
+    - ./infra/k8s/expense-depl.yaml
+    - ./infra/k8s/financial-data-depl.yaml
+    - ./infra/k8s/income-depl.yaml
+    - ./infra/k8s/ingress-srv.yaml
+    # - ./infra/k8s/rabbitmq-depl.yaml
+    - ./infra/k8s/smart-ai-depl.yaml
+    - ./infra/k8s/user-depl.yaml
+build:
+  local:
+    push: false
+  artifacts:
+    - image: finxpert-user
+      context: ./services/user
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: finxpert-expense
+      context: ./services/expense
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: finxpert-financial-data
+      context: ./services/financial-data
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: finxpert-income
+      context: ./services/income
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: finxpert-dashboard
+      context: ./services/dashboard
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
+    - image: finxpert-smart-ai
+      context: ./services/smart-ai
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.js"
+            dest: .
